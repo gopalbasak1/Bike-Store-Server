@@ -21,8 +21,15 @@ const getSpecificBikes = async (id: string) => {
 };
 
 //4. Update a Bike
-const getUpdateBike = async (id: string, data: IBike) => {
+const updateBike = async (id: string, data: IBike) => {
+  //specific bike update id and this bike all get data mean IBike
   const result = await Product.findByIdAndUpdate(id, data);
+  return result;
+};
+
+//5. Delete a Bike
+const deleteBike = async (id: string) => {
+  const result = await Product.findByIdAndDelete(id);
   return result;
 };
 
@@ -30,5 +37,6 @@ export const productService = {
   createABike,
   getAllBikes,
   getSpecificBikes,
-  getUpdateBike,
+  updateBike,
+  deleteBike,
 };

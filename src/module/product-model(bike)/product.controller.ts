@@ -59,11 +59,26 @@ const getAllBikes = async (req: Request, res: Response) => {
 };
 
 //3. Get a Specific Bike
-const getSpecificBikes = async(req: Request, res: Response)=>{
-    const = req.params
+const getSpecificBikes = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+    const result = await productService.getSpecificBikes(productId);
+    res.status(200).json({
+      status: true,
+      message: 'Bikes got successfully',
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: 'Error occurred while fetching bikes',
+      error: error,
+    });
+  }
 };
 
 export const productController = {
   createABike,
   getAllBikes,
+  getSpecificBikes,
 };

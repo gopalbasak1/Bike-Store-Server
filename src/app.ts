@@ -10,7 +10,7 @@ app.use(cors());
 
 //router connector
 app.use('/api/products', bikeRouter); //1. Create a Bike
-app.use('/api/products', bikeRouter); //2.Get All Bikes
+//app.use('/api/products', bikeRouter); //2.Get All Bikes
 
 //server live
 app.get('/', (req: Request, res: Response) => {
