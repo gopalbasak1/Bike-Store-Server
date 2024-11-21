@@ -23,7 +23,9 @@ const getSpecificBikes = async (id: string) => {
 //4. Update a Bike
 const updateBike = async (id: string, data: IBike) => {
   //specific bike update id and this bike all get data mean IBike
-  const result = await Product.findByIdAndUpdate(id, data);
+  const result = await Product.findByIdAndUpdate(id, data, {
+    new: true,
+  }); // new: true; use when user update data than new update data not show previous data
   return result;
 };
 

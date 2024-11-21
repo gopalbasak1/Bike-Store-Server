@@ -61,11 +61,52 @@ const getAllBikes = async (req: Request, res: Response) => {
 //3. Get a Specific Bike
 const getSpecificBikes = async (req: Request, res: Response) => {
   try {
+    //console.log(req.params); // jodi bujata na pari kon id diya query korta hoba tobaa ae vaba console korta hoba
+
+    //user this product id select than send backend request(id: diya kaj korla params hoba)
     const productId = req.params.productId;
-    const result = await productService.getSpecificBikes(productId);
+    const result = await productService.getSpecificBikes(productId); //ae productId diya single specific bikes find kora hoba
     res.status(200).json({
       status: true,
       message: 'Bikes got successfully',
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: 'Error occurred while fetching bikes',
+      error: error,
+    });
+  }
+};
+
+//4. Update a Bike
+const updateBike = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+    const body = req.body;
+    const result = await productService.updateBike(productId, body);
+    res.status(200).json({
+      status: true,
+      message: 'Bikes updated successfully',
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: 'Error occurred while fetching bikes',
+      error: error,
+    });
+  }
+};
+
+const deleteBike = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+    const result = await productService.deleteBike(productId);
+    res.status(200).json({
+      status: true,
+      message: 'Bike deleted successfully',
       result,
     });
   } catch (error) {
@@ -81,4 +122,6 @@ export const productController = {
   createABike,
   getAllBikes,
   getSpecificBikes,
+  updateBike,
+  deleteBike,
 };
