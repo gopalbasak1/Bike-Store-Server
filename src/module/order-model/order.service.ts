@@ -13,9 +13,6 @@ const orderABike = async (payload: iOrder) => {
     throw new Error('Insufficient stock');
   }
 
-  // Calculate total price
-  const totalPrice = product.price * payload.quantity;
-
   // Reduce inventory product.quantity - request.quantity
   product.quantity -= payload.quantity;
   //If the inventory reaches zero,
@@ -24,6 +21,10 @@ const orderABike = async (payload: iOrder) => {
   }
   //Save the updated product data
   await product.save();
+
+  // Calculate total price
+  const totalPrice = product.price * payload.quantity;
+
   // Create a new order in the database with the calculated totalPrice and other order details ae ta sas a korta hoba
   const order = await Order.create({
     ...payload,

@@ -11,15 +11,16 @@ const createABike = async (req: Request, res: Response) => {
 
     //res status
     res.status(200).json({
-      status: true,
       message: 'Bike created Successfully',
+      status: true,
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(error.status || 500).json({
+      message: 'Validation failed',
       status: false,
-      message: 'ValidationError',
-      error: error,
+      error: error || 'Something went wrong',
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
     });
   }
 };
@@ -45,15 +46,15 @@ const getAllBikes = async (req: Request, res: Response) => {
 
     const result = await productService.getAllBikes(query);
     res.status(200).json({
-      status: true,
       message: 'Bikes retrieved successfully',
+      status: true,
       data: result,
     });
   } catch (error) {
     res.status(500).json({
+      message: error.message || 'Validation failed',
       status: false,
-      message: 'Validation failed',
-      error: error,
+      error: error.message,
     });
   }
 };
@@ -67,14 +68,14 @@ const getSpecificBikes = async (req: Request, res: Response) => {
     const productId = req.params.productId;
     const result = await productService.getSpecificBikes(productId); //ae productId diya single specific bikes find kora hoba
     res.status(200).json({
+      message: 'Bike retrieved successfully',
       status: true,
-      message: 'Bikes got successfully',
       result,
     });
   } catch (error) {
     res.status(500).json({
+      message: 'Resource not found',
       status: false,
-      message: 'Error occurred while fetching bikes',
       error: error,
     });
   }
@@ -87,14 +88,14 @@ const updateBike = async (req: Request, res: Response) => {
     const body = req.body;
     const result = await productService.updateBike(productId, body);
     res.status(200).json({
+      message: 'Bike updated successfully',
       status: true,
-      message: 'Bikes updated successfully',
       result,
     });
   } catch (error) {
     res.status(500).json({
+      message: 'ValidationError',
       status: false,
-      message: 'Error occurred while fetching bikes',
       error: error,
     });
   }
@@ -105,14 +106,14 @@ const deleteBike = async (req: Request, res: Response) => {
     const productId = req.params.productId;
     const result = await productService.deleteBike(productId);
     res.status(200).json({
-      status: true,
       message: 'Bike deleted successfully',
+      status: true,
       result,
     });
   } catch (error) {
     res.status(500).json({
+      message: 'ValidationError',
       status: false,
-      message: 'Error occurred while fetching bikes',
       error: error,
     });
   }

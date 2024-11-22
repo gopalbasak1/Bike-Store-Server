@@ -11,7 +11,6 @@ const orderABike = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(400).json({
       message: error.message || 'Order creation failed',

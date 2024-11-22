@@ -11,6 +11,10 @@ const createABike = async (payload: IBike): Promise<IBike> => {
 //2. Get All Bikes
 const getAllBikes = async (query: object) => {
   const result = await Product.find(query);
+  //search a bike name, category, brand jodi original satha match na kora toba error dakha ba
+  if (!result || result.length === 0) {
+    throw new Error('No matching bikes found');
+  }
   return result;
 };
 

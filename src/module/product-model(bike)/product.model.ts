@@ -11,7 +11,7 @@ const productSchema = new Schema<IBike>(
     },
     brand: {
       type: String,
-      required: [true, 'Please enter bike brand name'],
+      required: [true, 'Please enter bike brand'],
     },
     price: {
       type: Number,
@@ -30,7 +30,10 @@ const productSchema = new Schema<IBike>(
     description: {
       type: String,
       required: true,
-      minlength: [10, 'Name must be at least 3 characters, get {VALUE}'],
+      minlength: [
+        10,
+        'Description must be at least 10 characters, get {VALUE}',
+      ],
     },
     quantity: {
       type: Number,
@@ -39,13 +42,19 @@ const productSchema = new Schema<IBike>(
     },
     inStock: {
       type: Boolean,
-      required: [true, 'Please provide valid stock true/false of quantity'],
+      required: [true, 'Please specify if the product is in stock'],
+      default: true,
     },
   },
   {
     timestamps: true, // Automatically adds `createdAt` and `updatedAt` fields
   },
 );
+// Pre-save hook to update `inStock` based on `quantity`
+productSchema.pre('save', function (next) {
+  this.inStock = this.quantity > 0;
+  next();
+});
 
 //define and export the productSchema
 const Product = model<IBike>('Product', productSchema);
