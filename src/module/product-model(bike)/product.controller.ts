@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 //req and res manage
 
 import { Request, Response } from 'express';
@@ -15,7 +16,7 @@ const createABike = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(error.status || 500).json({
       message: 'Validation failed',
       status: false,
@@ -50,7 +51,7 @@ const getAllBikes = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: error.message || 'Validation failed',
       status: false,
@@ -65,12 +66,12 @@ const getSpecificBikes = async (req: Request, res: Response) => {
     //console.log(req.params); // jodi bujata na pari kon id diya query korta hoba tobaa ae vaba console korta hoba
 
     //user this product id select than send backend request(id: diya kaj korla params hoba)
-    const productId = req.params.productId;
+    const { productId } = req.params;
     const result = await productService.getSpecificBikes(productId); //ae productId diya single specific bikes find kora hoba
     res.status(200).json({
       message: 'Bike retrieved successfully',
       status: true,
-      result,
+      data: result,
     });
   } catch (error) {
     res.status(500).json({

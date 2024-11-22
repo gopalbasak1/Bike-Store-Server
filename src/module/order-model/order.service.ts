@@ -3,7 +3,7 @@ import { iOrder } from './order.interface';
 import Order from './order.model';
 
 //1. Order a Bike;
-const orderABike = async (payload: iOrder) => {
+const orderABike = async (payload: iOrder): Promise<iOrder> => {
   const product = await Product.findById(payload.product);
   if (!product) {
     throw new Error('Product not found');
