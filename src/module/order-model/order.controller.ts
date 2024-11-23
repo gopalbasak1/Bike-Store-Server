@@ -29,9 +29,21 @@ const orderABike = async (req: Request, res: Response) => {
 };
 
 const allOrderBike = async (req: Request, res: Response) => {
-  const payload = req.params;
-  const result = await orderService.allOrderBike(payload);
-  res.send(result);
+  try {
+    const payload = req.params;
+    const result = await orderService.allOrderBike(payload);
+    res.status(200).json({
+      message: 'All orders bikes retrieved successfully',
+      status: true,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || 'Validation failed',
+      status: false,
+      error: error.message,
+    });
+  }
 };
 
 const calculateRevenue = async (_req: Request, res: Response) => {

@@ -37,9 +37,22 @@ const orderABike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 const allOrderBike = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const payload = req.params;
-    const result = yield order_service_1.orderService.allOrderBike(payload);
-    res.send(result);
+    try {
+        const payload = req.params;
+        const result = yield order_service_1.orderService.allOrderBike(payload);
+        res.status(200).json({
+            message: 'All orders bikes retrieved successfully',
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: error.message || 'Validation failed',
+            status: false,
+            error: error.message,
+        });
+    }
 });
 const calculateRevenue = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

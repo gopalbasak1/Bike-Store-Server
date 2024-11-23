@@ -111,10 +111,18 @@ const deleteBike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const productId = req.params.productId;
         const result = yield product_service_1.productService.deleteBike(productId);
+        // Check if the bike was deleted
+        if (!result) {
+            res.status(404).json({
+                message: 'Bike not found',
+                success: false,
+                data: {},
+            });
+        }
         res.status(200).json({
             message: 'Bike deleted successfully',
             status: true,
-            result,
+            data: {},
         });
     }
     catch (error) {

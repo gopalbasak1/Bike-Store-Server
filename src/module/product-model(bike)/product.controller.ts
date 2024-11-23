@@ -106,10 +106,18 @@ const deleteBike = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
     const result = await productService.deleteBike(productId);
+    // Check if the bike was deleted
+    if (!result) {
+      res.status(404).json({
+        message: 'Bike not found',
+        success: false,
+        data: {},
+      });
+    }
     res.status(200).json({
       message: 'Bike deleted successfully',
       status: true,
-      result,
+      data: {},
     });
   } catch (error) {
     res.status(500).json({
