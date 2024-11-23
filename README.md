@@ -75,9 +75,9 @@ npm start:prod
 ## 5 API Endpoints
 
 - Bikes
+  - POST /api/products: Add a new bike.
   - GET /api/products: Fetch all bikes.
   - GET /api/products/:productId: Fetch a bike by ID.
-  - POST /api/products: Add a new bike.
   - PATCH /api/products/:productId: Update bike details.
   - DELETE /api/products/:productId: Delete a bike.
 - Orders
