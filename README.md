@@ -82,6 +82,7 @@ npm start:prod
   - DELETE /api/products/:productId: Delete a bike.
 - Orders
   - POST /api/orders: Place a new order.
+  - GET /api/orders: Fetch all order bikes.
   - GET /api/orders/revenue: Total revenue calculated from all orders.
 
 ## Scripts

@@ -73,6 +73,14 @@ const getSpecificBikes = (req, res) => __awaiter(void 0, void 0, void 0, functio
         //user this product id select than send backend request(id: diya kaj korla params hoba)
         const { productId } = req.params;
         const result = yield product_service_1.productService.getSpecificBikes(productId); //ae productId diya single specific bikes find kora hoba
+        // If no product is found, return a 404 error
+        if (!result) {
+            res.status(404).json({
+                message: 'This product not found',
+                success: false,
+                data: {},
+            });
+        }
         res.status(200).json({
             message: 'Bike retrieved successfully',
             status: true,
