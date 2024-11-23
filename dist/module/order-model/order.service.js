@@ -39,6 +39,10 @@ const orderABike = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const order = yield order_model_1.default.create(Object.assign(Object.assign({}, payload), { totalPrice }));
     return order;
 });
+const allOrderBike = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_model_1.default.find(payload);
+    return result;
+});
 //2. Calculate Revenue from Orders (Aggregation)
 const calculateRevenue = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -61,4 +65,5 @@ const calculateRevenue = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.orderService = {
     orderABike,
     calculateRevenue,
+    allOrderBike,
 };

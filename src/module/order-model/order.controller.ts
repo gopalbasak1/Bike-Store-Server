@@ -28,6 +28,12 @@ const orderABike = async (req: Request, res: Response) => {
   }
 };
 
+const allOrderBike = async (req: Request, res: Response) => {
+  const payload = req.params;
+  const result = await orderService.allOrderBike(payload);
+  res.send(result);
+};
+
 const calculateRevenue = async (_req: Request, res: Response) => {
   try {
     const totalRevenue = await orderService.calculateRevenue();
@@ -48,4 +54,5 @@ const calculateRevenue = async (_req: Request, res: Response) => {
 export const orderController = {
   orderABike,
   calculateRevenue,
+  allOrderBike,
 };

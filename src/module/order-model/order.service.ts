@@ -33,6 +33,11 @@ const orderABike = async (payload: iOrder): Promise<iOrder> => {
   return order;
 };
 
+const allOrderBike = async (payload: object) => {
+  const result = await Order.find(payload);
+  return result;
+};
+
 //2. Calculate Revenue from Orders (Aggregation)
 const calculateRevenue = async () => {
   //order collection thaka aggregation korta hoba
@@ -55,4 +60,5 @@ const calculateRevenue = async () => {
 export const orderService = {
   orderABike,
   calculateRevenue,
+  allOrderBike,
 };

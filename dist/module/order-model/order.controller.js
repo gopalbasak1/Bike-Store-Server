@@ -36,6 +36,11 @@ const orderABike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+const allOrderBike = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.params;
+    const result = yield order_service_1.orderService.allOrderBike(payload);
+    res.send(result);
+});
 const calculateRevenue = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const totalRevenue = yield order_service_1.orderService.calculateRevenue();
@@ -56,4 +61,5 @@ const calculateRevenue = (_req, res) => __awaiter(void 0, void 0, void 0, functi
 exports.orderController = {
     orderABike,
     calculateRevenue,
+    allOrderBike,
 };
