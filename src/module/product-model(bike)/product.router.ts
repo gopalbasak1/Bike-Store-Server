@@ -3,7 +3,7 @@ import { productController } from './product.controller';
 
 const bikeRouter = Router();
 
-bikeRouter.post('/create-a-bike', productController.createABike);
+bikeRouter.post('/', productController.createABike);
 bikeRouter.get('/', productController.getAllBikes);
 bikeRouter.get('/:productId', productController.getSpecificBikes);
 bikeRouter.put('/:productId', productController.updateBike);

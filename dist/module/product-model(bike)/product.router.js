@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const product_controller_1 = require("./product.controller");
 const bikeRouter = (0, express_1.Router)();
-bikeRouter.post('/create-a-bike', product_controller_1.productController.createABike);
+bikeRouter.post('/', product_controller_1.productController.createABike);
 bikeRouter.get('/', product_controller_1.productController.getAllBikes);
 bikeRouter.get('/:productId', product_controller_1.productController.getSpecificBikes);
 bikeRouter.put('/:productId', product_controller_1.productController.updateBike);
