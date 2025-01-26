@@ -35,6 +35,10 @@ const productSchema = new Schema<IBike>(
         'Description must be at least 10 characters, get {VALUE}',
       ],
     },
+    model: {
+      type: String,
+      minlength: [10, 'Model is Required'],
+    },
     quantity: {
       type: Number,
       required: true,
