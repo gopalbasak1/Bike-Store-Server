@@ -3,28 +3,23 @@
 
 import { Request, Response } from 'express';
 import { productService } from './product.service';
+import catchAsync from '../../utils/catchAsync';
+import httpStatus from 'http-status-codes';
+import sendResponse from '../../utils/sendResponse';
 
 //1. Create a Bike
-const createABike = async (req: Request, res: Response) => {
-  try {
-    const payload = req.body;
-    const result = await productService.createABike(payload);
+const createABike = catchAsync(async (req: Request, res: Response) => {
+  const payload = req.body;
+  const result = await productService.createABike(payload);
 
-    //res status
-    res.status(200).json({
-      message: 'Bike created Successfully',
-      status: true,
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(error.status || 500).json({
-      message: 'Validation failed',
-      status: false,
-      error: error || 'Something went wrong',
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
-    });
-  }
-};
+  //res status
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Products create successfully',
+    data: result,
+  });
+});
 
 //2. Get All Bikes
 const getAllBikes = async (req: Request, res: Response) => {

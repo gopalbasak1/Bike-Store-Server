@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import bikeRouter from '../module/product-model(bike)/product.router';
 import orderRoute from '../module/order-model/order.router';
+import { UserRoute } from '../module/user/user.route';
+import { AuthRoutes } from '../module/auth/auth.route';
 
 const router = Router();
 
@@ -15,6 +17,14 @@ const moduleRoutes = [
   {
     path: '/orders',
     route: orderRoute,
+  },
+  {
+    path: '/users',
+    route: UserRoute,
+  },
+  {
+    path: '/auth',
+    route: AuthRoutes,
   },
 ];
 

@@ -1,16 +1,17 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import bikeRouter from './app/module/product-model(bike)/product.router';
-import orderRoute from './app/module/order-model/order.router';
 import globalErrorHandler from './app/middleware/globalErrorhandler';
 import notFound from './app/middleware/notFound';
 import router from './app/routes';
+import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 
 //parsers/middleware
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
 
 //router connector
 app.use('/api', router);
