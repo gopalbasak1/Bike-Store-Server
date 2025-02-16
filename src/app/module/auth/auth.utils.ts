@@ -2,7 +2,12 @@ import jwt, { JwtPayload, SignOptions } from 'jsonwebtoken';
 
 // Function to create a token
 export const createToken = (
-  jwtPayload: { email: string; role: string },
+  jwtPayload: {
+    email: string;
+    role: string;
+    image?: string | undefined;
+    name?: object;
+  },
   secret: string,
   expiresIn: string | number, // Ensure this can be a string or a number
 ): string => {

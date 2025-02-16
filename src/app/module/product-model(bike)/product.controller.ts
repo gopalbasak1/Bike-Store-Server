@@ -6,11 +6,13 @@ import { productService } from './product.service';
 import catchAsync from '../../utils/catchAsync';
 import httpStatus from 'http-status-codes';
 import sendResponse from '../../utils/sendResponse';
+import AppError from '../../errors/AppErrors';
 
 //1. Create a Bike
 const createABike = catchAsync(async (req: Request, res: Response) => {
+  const email = req.user?.email;
   const payload = req.body;
-  const result = await productService.createABike(payload);
+  const result = await productService.createABike(email as string, payload);
 
   //res status
   sendResponse(res, {
@@ -23,115 +25,58 @@ const createABike = catchAsync(async (req: Request, res: Response) => {
 
 //2. Get All Bikes
 const getAllBikes = async (req: Request, res: Response) => {
-  try {
-    // Create a query object
-    const { searchTerm } = req.query;
-
-    // Search query setup
-    let query = {};
-    if (searchTerm) {
-      const regex = new RegExp(searchTerm as string, 'i'); // Case-insensitive search
-      query = {
-        $or: [
-          { name: regex }, // Search in `name`
-          { brand: regex }, // Search in `brand`
-          { category: regex }, // Search in `category`
-        ],
-      };
-    }
-
-    const result = await productService.getAllBikes(query);
-    res.status(200).json({
-      message: 'Bikes retrieved successfully',
-      status: true,
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message || 'Validation failed',
-      status: false,
-      error: error.message,
-    });
-  }
+  const result = await productService.getAllBikes(req.query);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All Bike are retrieved successfully',
+    meta: result.meta,
+    data: result.result,
+  });
 };
 
 //3. Get a Specific Bike
-const getSpecificBikes = async (req: Request, res: Response) => {
-  try {
-    //console.log(req.params); // jodi bujata na pari kon id diya query korta hoba tobaa ae vaba console korta hoba
+const getSpecificBikes = catchAsync(async (req: Request, res: Response) => {
+  //console.log(req.params); // jodi bujata na pari kon id diya query korta hoba tobaa ae vaba console korta hoba
 
-    //user this product id select than send backend request(id: diya kaj korla params hoba)
-    const { productId } = req.params;
-    const result = await productService.getSpecificBikes(productId); //ae productId diya single specific bikes find kora hoba
+  //user this product id select than send backend request(id: diya kaj korla params hoba)
+  const { productId } = req.params;
+  const result = await productService.getSpecificBikes(productId); //ae productId diya single specific bikes find kora hoba
 
-    // If no product is found, return a 404 error
-    if (!result) {
-      res.status(404).json({
-        message: 'This product not found',
-        success: false,
-        data: {},
-      });
-    }
-
-    res.status(200).json({
-      message: 'Bike retrieved successfully',
-      status: true,
-      data: result,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Resource not found',
-      status: false,
-      error: error,
-    });
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Product not found!');
   }
-};
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bike is retrieved successfully',
+    data: result,
+  });
+});
 
 //4. Update a Bike
-const updateBike = async (req: Request, res: Response) => {
-  try {
-    const productId = req.params.productId;
-    const body = req.body;
-    const result = await productService.updateBike(productId, body);
-    res.status(200).json({
-      message: 'Bike updated successfully',
-      status: true,
-      result,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'ValidationError',
-      status: false,
-      error: error,
-    });
-  }
-};
+const updateBike = catchAsync(async (req: Request, res: Response) => {
+  const productId = req.params.productId;
+  const body = req.body;
+  const result = await productService.updateBike(productId, body);
+  res.status(200).json({
+    message: 'Bike updated successfully',
+    status: true,
+    result,
+  });
+});
 
-const deleteBike = async (req: Request, res: Response) => {
-  try {
-    const productId = req.params.productId;
-    const result = await productService.deleteBike(productId);
-    // Check if the bike was deleted
-    if (!result) {
-      res.status(404).json({
-        message: 'Bike not found',
-        success: false,
-        data: {},
-      });
-    }
-    res.status(200).json({
-      message: 'Bike deleted successfully',
-      status: true,
-      data: {},
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'ValidationError',
-      status: false,
-      error: error,
-    });
-  }
-};
+const deleteBike = catchAsync(async (req: Request, res: Response) => {
+  const productId = req.params.productId;
+  const result = await productService.deleteBike(productId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bike is deleted',
+    data: result,
+  });
+});
 
 export const productController = {
   createABike,

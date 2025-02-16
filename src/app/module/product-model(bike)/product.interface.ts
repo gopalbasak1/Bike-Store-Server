@@ -3,8 +3,10 @@ export interface IBike {
   brand: string;
   price: number;
   model?: string;
+  image: string;
   category: 'Mountain' | 'Road' | 'Hybrid' | 'Electric';
   description: string;
-  quantity: number;
+  totalQuantity: number;
   inStock?: boolean;
+  user?: string;
 }

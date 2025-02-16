@@ -11,24 +11,21 @@ export type TUserName = {
 
 export type TUser = {
   name: TUserName;
-  gender: 'male' | 'female' | 'other';
-  dateOfBirth?: Date;
   role: 'admin' | 'customer';
   email: string;
+  image?: string;
   password: string;
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
-  contactNo: string;
-  emergencyContactNo: string;
-  address: string;
   status: 'in-progress' | 'blocked';
   isActive: boolean;
   isDeleted: boolean;
+  fullName?: string;
 };
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
   // Method for checking if a user exists by their MongoDB ObjectId
-  // isUserExistsById(id: string): Promise<TUser | null>;
+  //isUserExistsById(id: string): Promise<TUser | null>;
 
   isPasswordMatched(
     plainTextPassword: string,

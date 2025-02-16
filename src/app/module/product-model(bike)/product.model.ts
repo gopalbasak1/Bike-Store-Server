@@ -3,6 +3,10 @@ import { IBike } from './product.interface';
 
 const productSchema = new Schema<IBike>(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
     name: {
       type: String,
       required: [true, 'Please enter bike name'],
@@ -17,6 +21,10 @@ const productSchema = new Schema<IBike>(
       type: Number,
       required: true,
       min: [0, 'Price must be a positive number'],
+    },
+    image: {
+      type: String,
+      required: true,
     },
     category: {
       type: String,
@@ -37,12 +45,11 @@ const productSchema = new Schema<IBike>(
     },
     model: {
       type: String,
-      minlength: [10, 'Model is Required'],
     },
-    quantity: {
+    totalQuantity: {
       type: Number,
       required: true,
-      min: [0, 'Quantity must be a positive number'],
+      min: [0, 'Total Quantity must be a positive number'],
     },
     inStock: {
       type: Boolean,
@@ -56,7 +63,7 @@ const productSchema = new Schema<IBike>(
 );
 // Pre-save hook to update `inStock` based on `quantity`
 productSchema.pre('save', function (next) {
-  this.inStock = this.quantity > 0;
+  this.inStock = this.totalQuantity > 0;
   next();
 });
 

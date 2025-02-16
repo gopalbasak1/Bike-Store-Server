@@ -27,15 +27,6 @@ const userSchema = new Schema<TUser, UserModel>(
       type: nameSchema,
       required: [true, 'Name is required'],
     },
-    gender: {
-      type: String,
-      enum: ['male', 'female', 'other'],
-      required: true,
-    },
-    dateOfBirth: {
-      type: Date,
-      required: true,
-    },
     role: {
       type: String,
       enum: ['admin', 'customer'],
@@ -52,24 +43,15 @@ const userSchema = new Schema<TUser, UserModel>(
       required: true,
       select: 0,
     },
+    image: {
+      type: String,
+    },
     needsPasswordChange: {
       type: Boolean,
       default: true,
     },
     passwordChangedAt: {
       type: Date,
-    },
-    contactNo: {
-      type: String,
-      required: true,
-    },
-    emergencyContactNo: {
-      type: String,
-      required: true,
-    },
-    address: {
-      type: String,
-      required: true,
     },
     isDeleted: {
       type: Boolean,
@@ -137,6 +119,7 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
 ) {
   const passwordChangedTime =
     new Date(passwordChangedTimestamp).getTime() / 1000;
+  console.log(passwordChangedTime, jwtIssuedTimestamp);
   return passwordChangedTime > jwtIssuedTimestamp;
 };
 

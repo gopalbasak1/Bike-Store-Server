@@ -24,6 +24,7 @@ const login = async (payload: TLoginUser) => {
   const user = await User.findOne({ email: payload?.email }).select(
     '+password',
   );
+
   //console.log(user);
   if (!user)
     throw new AppError(httpStatus.NOT_FOUND, 'This user email is not found !');
@@ -42,9 +43,12 @@ const login = async (payload: TLoginUser) => {
   if (!isMatch) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'Incorrect password!');
   }
+  //console.log(user.fullName);
   const jwtPayload = {
     email: user?.email,
     role: user?.role,
+    image: user?.image,
+    name: user?.name,
   };
 
   const accessToken = createToken(
@@ -67,13 +71,14 @@ const login = async (payload: TLoginUser) => {
 };
 
 const changePassword = async (
-  userData: JwtPayload | undefined, // Accept undefined
+  userData: JwtPayload | undefined, // Accept undefined for unauthenticated users
   payload: { oldPassword: string; newPassword: string },
 ) => {
   if (!userData) {
     throw new AppError(401, 'User is not authenticated.');
   }
 
+  // Find user by email (or use userData.id if available)
   const user = await User.findOne({ email: userData.email }).select(
     '+password',
   );
@@ -82,18 +87,17 @@ const changePassword = async (
     throw new AppError(404, 'User not found.');
   }
 
+  // Ensure user is not deleted
   if (user.isDeleted === false) {
     throw new AppError(403, 'This user is deleted.');
   }
 
+  // Ensure user is not blocked
   if (user.status === 'blocked') {
     throw new AppError(403, 'This user is blocked.');
   }
 
-  // Debugging output
-  // console.log('Old Password:', payload.oldPassword);
-  // console.log('Stored Password:', user.password);
-
+  // Check if the old password matches
   if (!user.password) {
     throw new AppError(500, 'Password not found for user.');
   }
@@ -103,21 +107,28 @@ const changePassword = async (
     throw new AppError(401, 'Old password is incorrect.');
   }
 
-  const newHashedPassword = await bcrypt.hash(
-    payload.newPassword,
-    Number(config.bcrypt_salt_rounds),
-  );
+  // Hash the new password
+  const saltRounds = Number(config.bcrypt_salt_rounds) || 12; // Default to 12 rounds if not set
+  const newHashedPassword = await bcrypt.hash(payload.newPassword, saltRounds);
 
-  await User.findOneAndUpdate(
-    { id: userData.userId, role: userData.role },
+  // Update the user's password and set passwordChangedAt
+  const updatedUser = await User.findOneAndUpdate(
+    { email: userData.email },
     {
       password: newHashedPassword,
       needsPasswordChange: false,
       passwordChangedAt: new Date(),
     },
+    { new: true },
   );
 
-  return null;
+  if (!updatedUser) {
+    throw new AppError(500, 'Password update failed.');
+  }
+
+  return {
+    message: 'Password updated successfully.',
+  };
 };
 
 const refreshToken = async (token: string) => {
@@ -155,6 +166,7 @@ const refreshToken = async (token: string) => {
   const jwtPayload = {
     email: user.email,
     role: user.role,
+    image: user.image,
   };
 
   const accessToken = createToken(

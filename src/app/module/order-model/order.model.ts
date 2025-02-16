@@ -3,17 +3,15 @@ import { iOrder } from './order.interface';
 
 const orderSchema = new Schema<iOrder>(
   {
-    email: {
-      type: String,
-      required: true,
-      unique: true,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
     product: {
       type: Schema.Types.ObjectId,
       ref: 'Product',
-      required: true,
     },
-    quantity: {
+    orderQuantity: {
       type: Number,
       required: true,
       min: 1,
@@ -22,6 +20,30 @@ const orderSchema = new Schema<iOrder>(
       type: Number,
       required: true,
       min: 0,
+    },
+    orderStatus: {
+      type: String,
+      enum: [
+        'Pending',
+        'Paid',
+        'Processing',
+        'Shipped',
+        'Delivered',
+        'Cancelled',
+      ],
+      default: 'Pending',
+    },
+    estimatedDeliveryDate: {
+      type: Date,
+    },
+    transaction: {
+      id: String,
+      transactionStatus: String,
+      bank_status: String,
+      sp_code: String,
+      sp_message: String,
+      method: String,
+      date_time: String,
     },
   },
   {
