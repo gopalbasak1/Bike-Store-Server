@@ -104,9 +104,11 @@ npm start:prod
 To set up SurjoPay, configure the following environment variables in your `.env` file:
 
 ````bash
-SURJOPAY_MERCHANT_ID=<your-merchant-id>
-SURJOPAY_API_KEY=<your-api-key>
-SURJOPAY_CALLBACK_URL=<your-callback-url>
+SURJOPAY_SP_ENDPOINT=<add-sp-endpoint>
+SURJOPAY_SP_USERNAME=<add-sp-username>
+SURJOPAY_SP_PASSWORD=<your-sp-password>
+SURJOPAY_SP_PREFIX=<add-SP>
+SURJOPAY_SP_RETURN_URL=<your-localhost(frontend)-orders-verify>
 
 ## 5 API Endpoints
 
