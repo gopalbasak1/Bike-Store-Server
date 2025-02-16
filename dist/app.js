@@ -5,15 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const product_router_1 = __importDefault(require("./module/product-model(bike)/product.router"));
-const order_router_1 = __importDefault(require("./module/order-model/order.router"));
+const globalErrorhandler_1 = __importDefault(require("./app/middleware/globalErrorhandler"));
+const notFound_1 = __importDefault(require("./app/middleware/notFound"));
+const routes_1 = __importDefault(require("./app/routes"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 //parsers/middleware
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cookie_parser_1.default)());
+app.use((0, cors_1.default)({ origin: 'http://localhost:5173', credentials: true }));
 //router connector
-app.use('/api/products', product_router_1.default); //1. Create a Bike
-app.use('/api/orders', order_router_1.default); //2.Order A Bike
+app.use('/api', routes_1.default);
 //server live
 app.get('/', (req, res) => {
     res.send({
@@ -21,4 +23,8 @@ app.get('/', (req, res) => {
         message: 'Server on live 🏃🏾‍♀️‍➡️',
     });
 });
+//Error Handler
+app.use(globalErrorhandler_1.default);
+//Not Found
+app.use(notFound_1.default);
 exports.default = app;

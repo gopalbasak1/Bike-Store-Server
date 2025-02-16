@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 import QueryBuilder from '../../builder/QueryBuilder';
 import { userSearchableFields } from './user.constant';
@@ -31,7 +32,7 @@ const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   return { result, meta };
 };
 
-const updateUserIntoDB = async (id: string, data: Partial<TUser>) => {
+const updateUserIntoDB = async (id: string, data: Partial<TUser> | any) => {
   const existingUser = await User.findById(id);
   if (!existingUser) {
     throw new Error('User not found');

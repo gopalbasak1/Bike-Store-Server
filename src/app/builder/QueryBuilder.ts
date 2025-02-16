@@ -33,6 +33,7 @@ class QueryBuilder<T> {
     excludeFields.forEach((el) => delete queryObj[el]);
 
     // Only apply filters if they exist
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: Record<string, any> = {};
 
     if (queryObj.brand) filters.brand = queryObj.brand;

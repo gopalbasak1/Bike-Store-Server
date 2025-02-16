@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export interface IBike {
   name: string;
   brand: string;
@@ -8,5 +10,5 @@ export interface IBike {
   description: string;
   totalQuantity: number;
   inStock?: boolean;
-  user?: string;
+  user?: string | Types.ObjectId;
 }
