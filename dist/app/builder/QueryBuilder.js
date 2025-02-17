@@ -74,7 +74,7 @@ class QueryBuilder {
             const totalQueries = this.modelQuery.getFilter();
             const total = yield this.modelQuery.model.countDocuments(totalQueries);
             const page = Number((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.page) || 1;
-            const limit = Number((_b = this === null || this === void 0 ? void 0 : this.query) === null || _b === void 0 ? void 0 : _b.limit) || 100;
+            const limit = Number((_b = this === null || this === void 0 ? void 0 : this.query) === null || _b === void 0 ? void 0 : _b.limit) || 10;
             const totalPage = Math.ceil(total / limit);
             return {
                 page,

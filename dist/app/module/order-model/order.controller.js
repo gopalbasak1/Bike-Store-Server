@@ -22,9 +22,9 @@ const orderABike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     var _a;
     const email = (_a = req.user) === null || _a === void 0 ? void 0 : _a.email;
     const { product, orderQuantity } = req.body;
-    console.log(req.body);
+    //console.log(req.body);
     const result = yield order_service_1.orderService.orderABike(product, orderQuantity, email, req.ip);
-    console.log(result);
+    //console.log(result);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_codes_1.default.CREATED,
         success: true,

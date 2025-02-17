@@ -36,7 +36,7 @@ const orderABike = (productId, orderQuantity, email, client_ip) => __awaiter(voi
     if (!orderProduct) {
         throw new AppErrors_1.default(http_status_codes_1.default.NOT_FOUND, 'Product not found');
     }
-    console.log(orderProduct);
+    //console.log(orderProduct);
     // 🔹 Check for an existing order with the same product and user
     const existingOrder = yield order_model_1.default.findOne({
         user: user === null || user === void 0 ? void 0 : user._id,
@@ -69,12 +69,12 @@ const orderABike = (productId, orderQuantity, email, client_ip) => __awaiter(voi
         orderStatus: 'Pending',
         estimatedDeliveryDate,
     });
-    console.log(order);
-    console.log('totalPrice', totalPrice);
+    //console.log(order);
+    //console.log('totalPrice', totalPrice);
     // payment integration
     // payload create
     const shurjopayPayload = {
-        amount: totalPrice,
+        amount: Number(totalPrice),
         order_id: order._id,
         currency: 'BDT',
         customer_name: user.fullName,
@@ -84,6 +84,7 @@ const orderABike = (productId, orderQuantity, email, client_ip) => __awaiter(voi
         customer_city: 'N/A',
         client_ip,
     };
+    //console.log(shurjopayPayload);
     const payment = yield order_utils_1.orderUtils.makePayment(shurjopayPayload);
     if (payment === null || payment === void 0 ? void 0 : payment.transactionStatus) {
         order = yield order.updateOne({

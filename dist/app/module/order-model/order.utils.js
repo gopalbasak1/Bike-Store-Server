@@ -19,10 +19,11 @@ const config_1 = __importDefault(require("../../config"));
 const shurjopay = new shurjopay_1.default();
 // Setting up shurjopay credentials from the environment variables
 shurjopay.config(config_1.default.sp.sp_endpoint, config_1.default.sp.sp_username, config_1.default.sp.sp_password, config_1.default.sp.sp_prefix, config_1.default.sp.sp_return_url);
-console.log(shurjopay);
+//console.log(shurjopay);
 const makePayment = (paymentPayload) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
         shurjopay.makePayment(paymentPayload, (response) => resolve(response), (error) => reject(error));
+        //console.log(makePayment);
     });
     //   const paymentResult = await shurjopay.makePayment(
     //     paymentPayload,
