@@ -14,7 +14,7 @@ shurjopay.config(
   config.sp.sp_return_url!,
 );
 
-console.log(shurjopay);
+//console.log(shurjopay);
 
 const makePayment = async (paymentPayload: any): Promise<PaymentResponse> => {
   return new Promise((resolve, reject) => {
@@ -23,6 +23,7 @@ const makePayment = async (paymentPayload: any): Promise<PaymentResponse> => {
       (response) => resolve(response),
       (error) => reject(error),
     );
+    //console.log(makePayment);
   });
 
   //   const paymentResult = await shurjopay.makePayment(

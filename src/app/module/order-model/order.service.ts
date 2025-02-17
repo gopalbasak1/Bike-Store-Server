@@ -31,7 +31,7 @@ const orderABike = async (
   if (!orderProduct) {
     throw new AppError(httpStatus.NOT_FOUND, 'Product not found');
   }
-  console.log(orderProduct);
+  //console.log(orderProduct);
 
   // 🔹 Check for an existing order with the same product and user
   const existingOrder = await Order.findOne({
@@ -75,14 +75,14 @@ const orderABike = async (
     estimatedDeliveryDate,
   });
 
-  console.log(order);
+  //console.log(order);
 
-  console.log('totalPrice', totalPrice);
+  //console.log('totalPrice', totalPrice);
 
   // payment integration
   // payload create
   const shurjopayPayload = {
-    amount: totalPrice,
+    amount: Number(totalPrice),
     order_id: order._id,
     currency: 'BDT',
     customer_name: user.fullName,
@@ -92,7 +92,7 @@ const orderABike = async (
     customer_city: 'N/A',
     client_ip,
   };
-
+  //console.log(shurjopayPayload);
   const payment = await orderUtils.makePayment(shurjopayPayload);
 
   if (payment?.transactionStatus) {

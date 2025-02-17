@@ -9,14 +9,14 @@ import AppError from '../../errors/AppErrors';
 const orderABike = catchAsync(async (req, res) => {
   const email = req.user?.email;
   const { product, orderQuantity } = req.body;
-  console.log(req.body);
+  //console.log(req.body);
   const result = await orderService.orderABike(
     product,
     orderQuantity,
     email as string,
     req.ip!,
   );
-  console.log(result);
+  //console.log(result);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
